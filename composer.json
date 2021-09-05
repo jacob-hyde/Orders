@@ -1,0 +1,39 @@
+{
+    "name": "jacob-hyde/orders",
+    "authors": [
+        {
+            "name": "Jacob Hyde",
+            "email": "jacob@jacobhyde.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4|^8.0",
+        "laravel/framework": "7.*|8.*",
+        "laravel/helpers": "^1.3",
+        "laravel/cashier": "^12.4",
+        "spatie/laravel-stripe-webhooks": "^2.3",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "paypal/paypal-payouts-sdk": "^1.0",
+        "paypal/rest-api-sdk-php": "^1.14",
+        "cartalyst/stripe": "^2.3",
+        "cartalyst/stripe-laravel": "^13.0",
+        "mehdi-fathi/eloquent-filter": "^2.5",
+        "spatie/laravel-webhook-client": "^2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "JacobHyde\\Orders\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "JacobHyde\\Orders\\OrdersServiceProvider"
+            ]
+        }
+    }
+}
