@@ -23,7 +23,7 @@ class PaymentController extends Controller
 
         if ($payment->status === PaymentModel::STATUS_PAID) {
             $capi_service = new CAPIService();
-            $capi_service->call(null, $request->ip(), $request->headers->get('X-USER-AGENT'), $request->headers->get('referer'), config('orders.user')::resolveUser(), $request->_fbp, $request->_fbc, CAPIService::EVENT_PURCHASE, 'USD', 1, $payment->order);
+            $capi_service->call(null, $request->ip(), $request->server('HTTP_USER_AGENT'), $request->headers->get('referer'), config('orders.user')::resolveUser(), $request->_fbp, $request->_fbc, CAPIService::EVENT_PURCHASE, 'USD', 1, $payment->order);
         }
 
         return (new PaymentResource($payment))
