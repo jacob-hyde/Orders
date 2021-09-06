@@ -16,7 +16,7 @@ class AdminOnly
      */
     public function handle(Request $request, Closure $next)
     {
-        $isAdmin = config('arorders.api_client')::isAdmin();
+        $isAdmin = config('orders.api_client')::isAdmin();
         if (!$isAdmin) {
             return response()->json([
                 'data' => ['success' => false, 'error' => 'INVALID_PERMISSION'],

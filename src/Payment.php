@@ -81,10 +81,10 @@ class Payment
         }
         $payment->status = $payment_status;
         $payment->save();
-        if ($payment->status === PaymentModel::STATUS_PAID && config('arorders.status_change_callback')) {
+        if ($payment->status === PaymentModel::STATUS_PAID && config('orders.status_change_callback')) {
             $payment->order->status = Order::STATUS_COMPLETED;
             $payment->order->save();
-            $job_class = config('arorders.status_change_callback');
+            $job_class = config('orders.status_change_callback');
             dispatch(new $job_class($payment, false));
             return true;
         }
@@ -93,13 +93,13 @@ class Payment
 
     public function createSubscription(PaymentModel $payment, array $data): bool
     {
-        if (!config('arorders.create_or_swap_subscription_callback')) {
+        if (!config('orders.create_or_swap_subscription_callback')) {
             return false;
         }
         $user = $payment->buyer;
         $subscription_plan = $payment->order->subscription_plan;
         $paymentable = $payment->paymentables ? $payment->paymentables->pluck('paymentable')->first() : null;
-        $subscription = call_user_func(config('arorders.create_or_swap_subscription_callback') . '::handle',
+        $subscription = call_user_func(config('orders.create_or_swap_subscription_callback') . '::handle',
             $user, $subscription_plan, $paymentable, isset($data['payment_method']) ? $data['payment_method'] : null);
         $stripe = new StripePaymentService();
         $payment_status = $stripe->updatePaymentStatus($payment->processor);
@@ -111,8 +111,8 @@ class Payment
         $payment->save();
         $payment->order->status = Order::STATUS_COMPLETED;
         $payment->order->save();
-        if ($paymentable && config('arorders.status_change_callback')) {
-            $job_class = config('arorders.status_change_callback');
+        if ($paymentable && config('orders.status_change_callback')) {
+            $job_class = config('orders.status_change_callback');
             dispatch(new $job_class($payment, false));
         }
         return $subscription->stripe_status === 'active' || $subscription->stripe_status === 'trialing';

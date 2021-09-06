@@ -44,9 +44,9 @@ class PaypalPaymentService
         }
         $this->_seller_user = $seller_user;
         if (App::environment() !== 'production') {
-            $environment = new SandboxEnvironment(config('arorders.paypal_client'), config('arorders.paypal_secret'));
+            $environment = new SandboxEnvironment(config('orders.paypal_client'), config('orders.paypal_secret'));
         } else {
-            $environment = new ProductionEnvironment(config('arorders.paypal_client'), config('arorders.paypal_secret'));
+            $environment = new ProductionEnvironment(config('orders.paypal_client'), config('orders.paypal_secret'));
         }
         $this->_client = new PayPalHttpClient($environment);
     }
@@ -67,7 +67,7 @@ class PaypalPaymentService
         $seller_merchant_id = null;
         if ($this->_seller_user) {
             $this->_sellerHasPaypalSetup($this->_seller_user);
-            $seller_merchant_id = $this->_seller_user->{config('arorders.seller_paypal_id_column')};
+            $seller_merchant_id = $this->_seller_user->{config('orders.seller_paypal_id_column')};
         }
 
         $amount = ceil($amount * 100) / 100;
@@ -180,7 +180,7 @@ class PaypalPaymentService
      */
     private function _sellerHasPaypalSetup($seller): bool
     {
-        if (!$seller->{config('arorders.seller_paypal_id_column')}) {
+        if (!$seller->{config('orders.seller_paypal_id_column')}) {
             $error_msg = strtr('Seller with id: {id} does not have paypal setup', ['{id}' => $seller->id]);
             throw new Exception($error_msg);
         }

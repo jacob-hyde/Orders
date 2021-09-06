@@ -73,7 +73,7 @@ class Payment extends Model
 
     public function buyer()
     {
-        return $this->belongsTo(config('arorders.user'), 'buyer_user_id')->withTrashed();
+        return $this->belongsTo(config('orders.user'), 'buyer_user_id')->withTrashed();
     }
 
     public static function deletePaymentFromKey(string $key, bool $delete_processor = true, bool $delete_paymentables = false, bool $delete_order = true): void

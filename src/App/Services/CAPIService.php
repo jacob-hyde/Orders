@@ -23,8 +23,8 @@ class CAPIService extends GuzzleRequestService
             return;
         }
         $this->client = $this->_createClient(
-            config('arorders.capi.lambda_api'),
-            ['x-api-key' => config('arorders.capi.lambda_key')]
+            config('orders.capi.lambda_api'),
+            ['x-api-key' => config('orders.capi.lambda_key')]
         );
     }
 

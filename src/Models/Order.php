@@ -123,12 +123,12 @@ class Order extends Model
 
     public function buyer()
     {
-        return $this->belongsTo(config('arorders.user'), 'buyer_user_id');
+        return $this->belongsTo(config('orders.user'), 'buyer_user_id');
     }
 
     public function seller()
     {
-        return $this->belongsTo(config('arorders.user'), 'seller_user_id');
+        return $this->belongsTo(config('orders.user'), 'seller_user_id');
     }
 
     public function orderables()

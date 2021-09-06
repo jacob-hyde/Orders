@@ -34,7 +34,7 @@ class SubscriptionRenewalFailedEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('arorders::mail.subscription.subscription-renewal-failed')
+        return $this->view('orders::mail.subscription.subscription-renewal-failed')
             ->with([
                 'subscription_plan' => $this->_subscription_plan,
                 'buyer' => $this->_buyer,

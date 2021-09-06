@@ -35,7 +35,7 @@ class CustomerSubscriptionDeletedEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('arorders::mail.subscription.subscription-cancelled')
+        return $this->view('orders::mail.subscription.subscription-cancelled')
             ->with([
                 'subscription_plan' => $this->_subscription_plan,
                 'buyer' => $this->_buyer,

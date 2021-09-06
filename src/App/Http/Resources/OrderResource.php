@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
         return [
             'uuid' => $this->uuid,
             'amount' => $this->amount,
-            'invoice_url' => $this->invoice_url ? Storage::disk(config('arorders.invoice_bucket'))->temporaryUrl($this->invoice_url, now()->addSeconds(3600)) : null,
+            'invoice_url' => $this->invoice_url ? Storage::disk(config('orders.invoice_bucket'))->temporaryUrl($this->invoice_url, now()->addSeconds(3600)) : null,
             'created_at' => $this->created_at->toiso8601string(),
             'status' => $this->status,
         ];

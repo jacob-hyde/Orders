@@ -40,7 +40,7 @@ class StripePaymentService
         }
         $this->_seller_user = $seller_user;
         $this->_meta = $meta;
-        Stripe::setApiKey(config('arorders.stripe_secret'));
+        Stripe::setApiKey(config('orders.stripe_secret'));
     }
 
     /**
@@ -104,7 +104,7 @@ class StripePaymentService
     {
         $payment_method = PaymentMethod::retrieve($payment_id);
         $payment_method->attach([
-            'customer' => $this->_user->{config('arorders.user_stripe_customer_id_column')},
+            'customer' => $this->_user->{config('orders.user_stripe_customer_id_column')},
         ]);
         $payment_intent = StripePaymentIntent::retrieve($intent->intent_id);
         $payment_intent = $payment_intent->confirm([
@@ -169,12 +169,12 @@ class StripePaymentService
      */
     public static function createCustomerFromUser($user): Customer
     {
-        Stripe::setApiKey(config('arorders.stripe_secret'));
+        Stripe::setApiKey(config('orders.stripe_secret'));
 
-        if ($user->{config('arorders.user_stripe_customer_id_column')}) {
+        if ($user->{config('orders.user_stripe_customer_id_column')}) {
             $customer = null;
             try {
-                $customer = Customer::retrieve($user->{config('arorders.user_stripe_customer_id_column')});
+                $customer = Customer::retrieve($user->{config('orders.user_stripe_customer_id_column')});
             } catch (Exception $e) {
             }
             if ($customer) {
@@ -185,7 +185,7 @@ class StripePaymentService
             'email' => $user->email,
             'name' => $user->fname.' '.$user->lname,
         ]);
-        $user->{config('arorders.user_stripe_customer_id_column')} = $customer->id;
+        $user->{config('orders.user_stripe_customer_id_column')} = $customer->id;
         $user->save();
 
         return $customer;
@@ -219,7 +219,7 @@ class StripePaymentService
      */
     public static function attachCustomerToPaymentMethod(string $customer_id, string $payment_id): void
     {
-        Stripe::setApiKey(config('arorders.stripe_secret'));
+        Stripe::setApiKey(config('orders.stripe_secret'));
         $payment_method = PaymentMethod::retrieve($payment_id);
         $payment_method->attach([
             'customer' => $customer_id,

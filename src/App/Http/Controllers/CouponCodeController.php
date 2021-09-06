@@ -87,7 +87,7 @@ class CouponCodeController extends Controller
             return $this->regularResponse(['message' => 'Current Coupon Code Product Type is not matched.'], false, null, Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $discount_price = config('arorders.coupon_calculations')[$coupon_code->productType->type];
+        $discount_price = config('orders.coupon_calculations')[$coupon_code->productType->type];
         $discount_price = call_user_func($discount_price . '::calculateDiscountPrice', $coupon_code, $data);
 
         return $this->regularResponse(['id' => $coupon_code->id, 'price' => Payment::convertCentsToDollars($discount_price)]);

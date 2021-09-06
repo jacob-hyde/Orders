@@ -28,7 +28,7 @@ class SubscriptionPlanController extends Controller
 
     public function store(SubscriptionPlanRequest $request)
     {
-        $user = config('arorders.user')::resolveUser();
+        $user = config('orders.user')::resolveUser();
         if (!$user) {
             return $this->regularResponse([], false, 'USER_NOT_FOUND', Response::HTTP_NOT_FOUND);
         }

@@ -74,7 +74,7 @@ class OrdersServiceProvider extends ServiceProvider
             $this->loadRoutesFrom(__DIR__ . '/routes/api.php');
         });
 
-        Route::group(['prefix' => config('arorders.route_prefix'), 'middleware' => ['api']], function () {
+        Route::group(['prefix' => config('orders.route_prefix'), 'middleware' => ['api']], function () {
             $this->loadRoutesFrom(__DIR__ . '/routes/webhooks.php');
         });
     }

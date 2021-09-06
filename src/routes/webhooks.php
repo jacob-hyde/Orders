@@ -7,7 +7,7 @@ foreach (config('webhook-client.configs') as $config) {
     Route::webhooks('webhook/' . $config['name'], $config['name']);
 }
 
-if (config('arorders.stripe_webhooks')) {
+if (config('orders.stripe_webhooks')) {
     Route::stripeWebhooks('webhook/stripe');
 }
 

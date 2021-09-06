@@ -12,7 +12,7 @@ class SubscriptionController extends Controller
 {
     public function index()
     {
-        $user = config('arorders.user')::resolveUser();
+        $user = config('orders.user')::resolveUser();
         if (!$user) {
             return $this->regularResponse([], false, 'USER_NOT_FOUND', Response::HTTP_NOT_FOUND);
         }
@@ -38,7 +38,7 @@ class SubscriptionController extends Controller
 
     public function destroy(Subscription $subscription)
     {
-        $user = config('arorders.user')::resolveUser();
+        $user = config('orders.user')::resolveUser();
         if (!$user) {
             return $this->regularResponse([], false, 'USER_NOT_FOUND', Response::HTTP_NOT_FOUND);
         }

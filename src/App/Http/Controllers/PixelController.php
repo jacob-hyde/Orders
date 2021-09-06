@@ -13,8 +13,8 @@ class PixelController extends Controller
     {
         $event_id = time() . '.' . mt_rand(0, 100000);
         $user = null;
-        if (config('arorders.user')::resolveUser()) {
-            $user = config('arorders.user')::resolveUser();
+        if (config('orders.user')::resolveUser()) {
+            $user = config('orders.user')::resolveUser();
             Cache::add($user->id . '.pixel.event', $event_id, 120);
         }
 

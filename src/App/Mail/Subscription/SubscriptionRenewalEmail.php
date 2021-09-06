@@ -34,7 +34,7 @@ class SubscriptionRenewalEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('arorders::mail.subscription.subscription-renewal')
+        return $this->view('orders::mail.subscription.subscription-renewal')
             ->with([
                 'order' => $this->_order,
                 'buyer' => $this->_buyer,

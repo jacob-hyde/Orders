@@ -46,7 +46,7 @@ class PaymentIntent extends Model
 
     public function seller()
     {
-        return $this->belongsTo(config('arorders.user'), 'buyer_id', 'id');
+        return $this->belongsTo(config('orders.user'), 'buyer_id', 'id');
     }
 
     public function buyer()

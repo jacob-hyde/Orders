@@ -21,7 +21,7 @@ class SubscriptionResource extends JsonResource
             'ends_at' => $this->ends_at ? $this->ends_at->toiso8601string() : null,
             'bills_next' => $this->bills_next,
             'created_at' => $this->created_at->toiso8601string(),
-            'service' => config('arorders.service_name'),
+            'service' => config('orders.service_name'),
             'price' => number_format($this->subscription_plan->planable->price, 2, '.', ','),
             'orders' => OrderResource::collection($this->whenLoaded('orders')),
         ];

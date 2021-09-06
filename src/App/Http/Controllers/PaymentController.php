@@ -23,7 +23,7 @@ class PaymentController extends Controller
 
         if ($payment->status === PaymentModel::STATUS_PAID) {
             $capi_service = new CAPIService();
-            $capi_service->call(null, $request->ip(), $request->headers->get('X-USER-AGENT'), $request->headers->get('referer'), config('arorders.user')::resolveUser(), $request->_fbp, $request->_fbc, CAPIService::EVENT_PURCHASE, 'USD', 1, $payment->order);
+            $capi_service->call(null, $request->ip(), $request->headers->get('X-USER-AGENT'), $request->headers->get('referer'), config('orders.user')::resolveUser(), $request->_fbp, $request->_fbc, CAPIService::EVENT_PURCHASE, 'USD', 1, $payment->order);
         }
 
         return (new PaymentResource($payment))
@@ -43,17 +43,17 @@ class PaymentController extends Controller
 
     public function payout()
     {
-        $user = config('arorders.user')::resolveUser();
+        $user = config('orders.user')::resolveUser();
         if (!$user) {
             return $this->regularResponse([], false, 'USER_NOT_FOUND', Response::HTTP_NOT_FOUND);
         }
 
         $error = null;
-        $model = $user->{config('arorders.payout_model_relationship')};
+        $model = $user->{config('orders.payout_model_relationship')};
         $amount = $model->payout_amount;
-        $error = call_user_func(config('arorders.payout_rules') . '::checkPayoutRules', $user, $amount);
-        $email_subject = config('arorders.payout_email_subject');
-        $note = config('arorders.payout_note');
+        $error = call_user_func(config('orders.payout_rules') . '::checkPayoutRules', $user, $amount);
+        $email_subject = config('orders.payout_email_subject');
+        $note = config('orders.payout_note');
 
         if ($error) {
             return $this->regularResponse([], false, $error[0], 200, $error[1]);
@@ -69,7 +69,7 @@ class PaymentController extends Controller
 
     public function cancelSubscription(Request $request)
     {
-        $user = config('arorders.user')::resolveUser();
+        $user = config('orders.user')::resolveUser();
 
         if (!$user) {
             return $this->regularResponse([], false, 'USER_NOT_FOUND', Response::HTTP_NOT_FOUND);

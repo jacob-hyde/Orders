@@ -29,6 +29,6 @@ class PaypalPayout extends Model
 
     public function user()
     {
-        return $this->belongsTo(config('arorders.user'));
+        return $this->belongsTo(config('orders.user'));
     }
 }
