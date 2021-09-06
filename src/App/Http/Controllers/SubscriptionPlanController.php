@@ -6,7 +6,7 @@ use JacobHyde\Orders\App\Http\Controllers\Controller;
 use JacobHyde\Orders\App\Http\Requests\SubscriptionPlanRequest;
 use JacobHyde\Orders\App\Http\Resources\PaymentResource;
 use JacobHyde\Orders\App\Http\Resources\SubscriptionPlanResource;
-use JacobHyde\Orders\Facades\ARPayment;
+use JacobHyde\Orders\Facades\Payment;
 use JacobHyde\Orders\Models\Customer;
 use JacobHyde\Orders\Models\Order;
 use JacobHyde\Orders\Models\SubscriptionPlan;
@@ -34,7 +34,7 @@ class SubscriptionPlanController extends Controller
         }
 
         $subscription_plan = SubscriptionPlan::findOrFail($request->plan_id);
-        $payment = ARPayment::setUser($user)
+        $payment = Payment::setUser($user)
             ->setRecurring(true)
             ->setSubscriptionPlan($subscription_plan)
             ->rememberCard($request->remember_card ? true : false)

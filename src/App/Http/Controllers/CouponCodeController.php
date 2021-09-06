@@ -4,7 +4,7 @@ namespace JacobHyde\Orders\App\Http\Controllers;
 
 use JacobHyde\Orders\App\Http\Requests\CouponCodeUpdateRequest;
 use JacobHyde\Orders\App\Http\Resources\CouponCodeResource;
-use JacobHyde\Orders\Facades\ARPayment;
+use JacobHyde\Orders\Facades\Payment;
 use JacobHyde\Orders\Models\CouponCode;
 use JacobHyde\Orders\Models\ProductType;
 use Illuminate\Http\Request;
@@ -90,6 +90,6 @@ class CouponCodeController extends Controller
         $discount_price = config('arorders.coupon_calculations')[$coupon_code->productType->type];
         $discount_price = call_user_func($discount_price . '::calculateDiscountPrice', $coupon_code, $data);
 
-        return $this->regularResponse(['id' => $coupon_code->id, 'price' => ARPayment::convertCentsToDollars($discount_price)]);
+        return $this->regularResponse(['id' => $coupon_code->id, 'price' => Payment::convertCentsToDollars($discount_price)]);
     }
 }

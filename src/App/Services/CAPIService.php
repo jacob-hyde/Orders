@@ -2,7 +2,7 @@
 
 namespace JacobHyde\Orders\App\Services;
 
-use JacobHyde\Orders\ARPayment;
+use JacobHyde\Orders\Payment;
 use Exception;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
@@ -59,7 +59,7 @@ class CAPIService extends GuzzleRequestService
 
         if ($event_type === self::EVENT_PURCHASE && $order) {
             $data['order_uuid'] = $order->uuid;
-            $data['price'] = (float) ARPayment::convertCentsToDollars($order->amount);
+            $data['price'] = (float) Payment::convertCentsToDollars($order->amount);
         }
         try {
             return $this->_doRequest($this->client, '', 'POST', [], $data);

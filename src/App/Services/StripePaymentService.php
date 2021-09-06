@@ -2,8 +2,8 @@
 
 namespace JacobHyde\Orders\App\Services;
 
-use JacobHyde\Orders\ARPayment;
-use JacobHyde\Orders\Models\Payment;
+use JacobHyde\Orders\Payment;
+use JacobHyde\Orders\Models\Payment as PaymentModel;
 use JacobHyde\Orders\Models\PaymentIntent;
 use JacobHyde\Orders\Models\PaymentIntentRefund;
 use JacobHyde\Orders\Models\SubscriptionPlan;
@@ -86,7 +86,7 @@ class StripePaymentService
             'seller_id' => null,
             'intent_id' => $stripe_intent->id,
             'client_secret' => $stripe_intent->client_secret,
-            'amount' => ARPayment::convertDollarsToCents($subscription_plan->planable->price),
+            'amount' => Payment::convertDollarsToCents($subscription_plan->planable->price),
             'fee' => 0,
             'customer' => $stripe_intent->customer,
             'status' => $stripe_intent->status,
@@ -132,7 +132,7 @@ class StripePaymentService
         $intent->status = $stripe_intent->status;
         $intent->save();
 
-        return $stripe_intent->status === 'succeeded' ? Payment::STATUS_PAID : Payment::STATUS_DECLINED;
+        return $stripe_intent->status === 'succeeded' ? PaymentModel::STATUS_PAID : PaymentModel::STATUS_DECLINED;
     }
 
     /**
@@ -253,9 +253,9 @@ class StripePaymentService
      */
     private function _createIntentData(Customer $customer, float $amount, $seller = null, float $fee = null, bool $remember_card = false): array
     {
-        $amount = ARPayment::convertDollarsToCents($amount);
+        $amount = Payment::convertDollarsToCents($amount);
         if ($fee !== null) {
-            $fee = ARPayment::convertDollarsToCents($fee);
+            $fee = Payment::convertDollarsToCents($fee);
         }
         $intent_data = [
             'payment_method_types' => ['card'],

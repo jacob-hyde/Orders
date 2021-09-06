@@ -3,8 +3,8 @@
 namespace JacobHyde\Orders\App\Services;
 
 use App\User;
-use JacobHyde\Orders\ARPayment;
-use JacobHyde\Orders\Models\Payment;
+use JacobHyde\Orders\Payment;
+use JacobHyde\Orders\Models\Payment as PaymentModel;
 use JacobHyde\Orders\Models\PaypalOrder;
 use JacobHyde\Orders\Models\PaypalPayout;
 use JacobHyde\Orders\Models\PaypalWebhookEvent;
@@ -81,8 +81,8 @@ class PaypalPaymentService
             'seller_user_id' => $this->_seller_user ? $this->_seller_user->id : null,
             'order_id' => $response->result->id,
             'status' => $response->result->status,
-            'amount' => ARPayment::convertDollarsToCents($amount),
-            'fee' => $fee ? ARPayment::convertDollarsToCents($fee) : 0,
+            'amount' => Payment::convertDollarsToCents($amount),
+            'fee' => $fee ? Payment::convertDollarsToCents($fee) : 0,
             'payment_link' => array_values(array_filter($response->result->links, function ($val) {
                 return $val->rel === 'approve';
             }))[0]->href, //TODO seperate this line out
@@ -105,10 +105,10 @@ class PaypalPaymentService
             $paypal_order->status = $status;
             $paypal_order->capture_id = $response->result->purchase_units[0]->payments->captures[0]->id;
             $paypal_order->save();
-            return $status === 'COMPLETED' ? Payment::STATUS_PAID : Payment::STATUS_DECLINED;
+            return $status === 'COMPLETED' ? PaymentModel::STATUS_PAID : PaymentModel::STATUS_DECLINED;
         } catch (Exception $e) {
             Log::error($e->message());
-            return Payment::STATUS_DECLINED;
+            return PaymentModel::STATUS_DECLINED;
         }
 
     }
@@ -133,7 +133,7 @@ class PaypalPaymentService
         $request = new CapturesRefundRequest($paypal_order->capture_id);
         $request->body = [
             'amount' => [
-                'value' => $amount ? ARPayment::convertCentsToDollars($amount) : ARPayment::convertCentsToDollars($paypal_order->amount),
+                'value' => $amount ? Payment::convertCentsToDollars($amount) : Payment::convertCentsToDollars($paypal_order->amount),
                 'currency_code' => 'USD',
             ],
         ];
@@ -160,7 +160,7 @@ class PaypalPaymentService
             return PaypalPayout::create([
                 'user_id' => $this->_user->id,
                 'paypal_email' => $this->_user->paypal_email,
-                'amount' => ARPayment::convertDollarsToCents($amount),
+                'amount' => Payment::convertDollarsToCents($amount),
                 'payout_batch_id' => $response->result->batch_header->payout_batch_id,
                 'status' => $response->result->batch_header->batch_status,
                 'email_subject' => $email_subject,
