@@ -18,7 +18,7 @@ class PaymentController extends Controller
         if ($request->recurring) {
             Payment::createSubscription($payment, $request->all());
         } else {
-            Payment::update($payment, $request->except(['recurring']));
+            Payment::update($payment, $request->except(['recurring', '_fbp', '_fbc']));
         }
 
         if ($payment->status === PaymentModel::STATUS_PAID) {
