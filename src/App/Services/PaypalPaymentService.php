@@ -1,13 +1,13 @@
 <?php
 
-namespace JacobHyde\Orders\App\Services;
+namespace KnotAShell\Orders\App\Services;
 
 use App\User;
-use JacobHyde\Orders\Payment;
-use JacobHyde\Orders\Models\Payment as PaymentModel;
-use JacobHyde\Orders\Models\PaypalOrder;
-use JacobHyde\Orders\Models\PaypalPayout;
-use JacobHyde\Orders\Models\PaypalWebhookEvent;
+use KnotAShell\Orders\Payment;
+use KnotAShell\Orders\Models\Payment as PaymentModel;
+use KnotAShell\Orders\Models\PaypalOrder;
+use KnotAShell\Orders\Models\PaypalPayout;
+use KnotAShell\Orders\Models\PaypalWebhookEvent;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\App;

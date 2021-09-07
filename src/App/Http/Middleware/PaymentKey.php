@@ -1,8 +1,8 @@
 <?php
 
-namespace JacobHyde\Orders\App\Http\Middleware;
+namespace KnotAShell\Orders\App\Http\Middleware;
 
-use JacobHyde\Orders\Models\Payment;
+use KnotAShell\Orders\Models\Payment;
 use Closure;
 
 class PaymentKey

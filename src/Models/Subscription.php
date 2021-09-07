@@ -1,6 +1,6 @@
 <?php
 
-namespace JacobHyde\Orders\Models;
+namespace KnotAShell\Orders\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

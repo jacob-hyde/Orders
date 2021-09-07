@@ -1,6 +1,6 @@
 <?php
 
-namespace JacobHyde\Orders\Models;
+namespace KnotAShell\Orders\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace JacobHyde\Orders;
+namespace KnotAShell\Orders;
 
-use JacobHyde\Orders\App\Services\PaypalPaymentService;
-use JacobHyde\Orders\App\Services\StripePaymentService;
-use JacobHyde\Orders\Models\Order;
-use JacobHyde\Orders\Models\Payment as PaymentModel;
-use JacobHyde\Orders\Models\SubscriptionPlan;
+use KnotAShell\Orders\App\Services\PaypalPaymentService;
+use KnotAShell\Orders\App\Services\StripePaymentService;
+use KnotAShell\Orders\Models\Order;
+use KnotAShell\Orders\Models\Payment as PaymentModel;
+use KnotAShell\Orders\Models\SubscriptionPlan;
 use Exception;
 use Illuminate\Support\Arr;
 

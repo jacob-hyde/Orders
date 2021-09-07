@@ -1,8 +1,8 @@
 <?php
 
-namespace JacobHyde\Orders\Models;
+namespace KnotAShell\Orders\Models;
 
-use JacobHyde\Orders\Models\ProductType;
+use KnotAShell\Orders\Models\ProductType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use eloquentFilter\QueryFilter\ModelFilters\Filterable;

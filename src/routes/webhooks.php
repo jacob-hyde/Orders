@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use JacobHyde\Orders\App\Http\Controllers\CashierWebhookController;
+use KnotAShell\Orders\App\Http\Controllers\CashierWebhookController;
 
 foreach (config('webhook-client.configs') as $config) {
     Route::webhooks('webhook/' . $config['name'], $config['name']);

@@ -1,9 +1,9 @@
 <?php
 
-namespace JacobHyde\Orders\App\Jobs\Stripe;
+namespace KnotAShell\Orders\App\Jobs\Stripe;
 
-use JacobHyde\Orders\App\Mail\Subscription\SubscriptionRenewalFailedEmail;
-use JacobHyde\Orders\Models\Subscription;
+use KnotAShell\Orders\App\Mail\Subscription\SubscriptionRenewalFailedEmail;
+use KnotAShell\Orders\Models\Subscription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

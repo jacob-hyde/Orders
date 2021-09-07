@@ -1,8 +1,8 @@
 <?php
 
-namespace JacobHyde\Orders\Models;
+namespace KnotAShell\Orders\Models;
 
-use JacobHyde\Orders\Models\Order;
+use KnotAShell\Orders\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace JacobHyde\Orders\Models;
+namespace KnotAShell\Orders\Models;
 
 use eloquentFilter\QueryFilter\ModelFilters\Filterable;
 use Faker\Provider\Uuid;

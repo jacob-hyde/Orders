@@ -1,6 +1,6 @@
 <?php
 
-namespace JacobHyde\Orders\App\Services;
+namespace KnotAShell\Orders\App\Services;
 
 use Exception;
 use GuzzleHttp\Client;

@@ -1,6 +1,6 @@
 <?php
 
-namespace JacobHyde\Orders;
+namespace KnotAShell\Orders;
 
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\SignatureValidator\SignatureValidator;

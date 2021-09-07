@@ -1,13 +1,13 @@
 <?php
 
-namespace JacobHyde\Orders\App\Http\Controllers;
+namespace KnotAShell\Orders\App\Http\Controllers;
 
-use JacobHyde\Orders\App\Http\Requests\PaymentUpdateRequest;
-use JacobHyde\Orders\App\Http\Resources\PaymentResource;
-use JacobHyde\Orders\App\Services\CAPIService;
-use JacobHyde\Orders\Facades\Payment;
-use JacobHyde\Orders\Models\Payment as PaymentModel;
-use JacobHyde\Orders\Models\SubscriptionPlan;
+use KnotAShell\Orders\App\Http\Requests\PaymentUpdateRequest;
+use KnotAShell\Orders\App\Http\Resources\PaymentResource;
+use KnotAShell\Orders\App\Services\CAPIService;
+use KnotAShell\Orders\Facades\Payment;
+use KnotAShell\Orders\Models\Payment as PaymentModel;
+use KnotAShell\Orders\Models\SubscriptionPlan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

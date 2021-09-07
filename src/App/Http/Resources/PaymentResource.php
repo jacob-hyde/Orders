@@ -1,8 +1,8 @@
 <?php
 
-namespace JacobHyde\Orders\App\Http\Resources;
+namespace KnotAShell\Orders\App\Http\Resources;
 
-use JacobHyde\Orders\Payment;
+use KnotAShell\Orders\Payment;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class PaymentResource extends JsonResource

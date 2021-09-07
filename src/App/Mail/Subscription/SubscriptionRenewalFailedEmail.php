@@ -1,8 +1,8 @@
 <?php
 
-namespace JacobHyde\Orders\App\Mail\Subscription;
+namespace KnotAShell\Orders\App\Mail\Subscription;
 
-use JacobHyde\Orders\Models\SubscriptionPlan;
+use KnotAShell\Orders\Models\SubscriptionPlan;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;

@@ -26,13 +26,13 @@
     },
     "autoload": {
         "psr-4": {
-            "JacobHyde\\Orders\\": "src/"
+            "KnotAShell\\Orders\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "JacobHyde\\Orders\\OrdersServiceProvider"
+                "KnotAShell\\Orders\\OrdersServiceProvider"
             ]
         }
     }

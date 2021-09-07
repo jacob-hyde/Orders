@@ -1,6 +1,6 @@
 <?php
 
-namespace JacobHyde\Orders\App\Http\Middleware;
+namespace KnotAShell\Orders\App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

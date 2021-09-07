@@ -1,10 +1,10 @@
 <?php
 
-namespace JacobHyde\Orders\App\Http\Controllers;
+namespace KnotAShell\Orders\App\Http\Controllers;
 
-use JacobHyde\Orders\App\Http\Controllers\Controller;
-use JacobHyde\Orders\App\Http\Resources\SubscriptionResource;
-use JacobHyde\Orders\Models\Subscription;
+use KnotAShell\Orders\App\Http\Controllers\Controller;
+use KnotAShell\Orders\App\Http\Resources\SubscriptionResource;
+use KnotAShell\Orders\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

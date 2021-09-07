@@ -1,12 +1,12 @@
 <?php
 
-namespace JacobHyde\Orders\App\Services;
+namespace KnotAShell\Orders\App\Services;
 
-use JacobHyde\Orders\Payment;
-use JacobHyde\Orders\Models\Payment as PaymentModel;
-use JacobHyde\Orders\Models\PaymentIntent;
-use JacobHyde\Orders\Models\PaymentIntentRefund;
-use JacobHyde\Orders\Models\SubscriptionPlan;
+use KnotAShell\Orders\Payment;
+use KnotAShell\Orders\Models\Payment as PaymentModel;
+use KnotAShell\Orders\Models\PaymentIntent;
+use KnotAShell\Orders\Models\PaymentIntentRefund;
+use KnotAShell\Orders\Models\SubscriptionPlan;
 use Exception;
 use Stripe\Customer;
 use Stripe\Exception\ApiConnectionException;

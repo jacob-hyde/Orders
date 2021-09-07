@@ -1,10 +1,10 @@
 <?php
 
-namespace JacobHyde\Orders;
+namespace KnotAShell\Orders;
 
-use JacobHyde\Orders\App\Http\Middleware\AdminOnly;
-use JacobHyde\Orders\App\Http\Middleware\PaymentKey;
-use JacobHyde\Orders\Console\ManagerSuspension;
+use KnotAShell\Orders\App\Http\Middleware\AdminOnly;
+use KnotAShell\Orders\App\Http\Middleware\PaymentKey;
+use KnotAShell\Orders\Console\ManagerSuspension;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
