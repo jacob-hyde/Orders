@@ -30,6 +30,7 @@ class CAPIService extends GuzzleRequestService
 
     public function call(?string $event_id, string $ip, string $user_agent, ?string $referer, $user, $fbp, $fbc, string $event_type = self::EVENT_PURCHASE, string $currency = 'usd', int $quantity = 1, $order = null)
     {
+        return;
         if (App::environment() !== 'production') {
             return;
         }
