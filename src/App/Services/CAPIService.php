@@ -19,6 +19,7 @@ class CAPIService extends GuzzleRequestService
 
     public function __construct()
     {
+        return;
         if (App::environment() !== 'production') {
             return;
         }
