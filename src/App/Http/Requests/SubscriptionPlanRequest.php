@@ -13,7 +13,7 @@ class SubscriptionPlanRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check();
+        return auth('api')->check();
     }
 
     /**
