@@ -40,7 +40,7 @@ class SubscriptionPlanController extends Controller
             ->rememberCard($request->remember_card ? true : false)
             ->create();
         $customer = Customer::customerFromUser($user);
-        Order::createOrder($payment, $customer, $user, Order::STATUS_PENDING, ($payment->amount + $payment->fee), $subscription_plan->product_type, null, auth()->user()->id, $subscription_plan);
+        Order::createOrder($payment, $customer, $user, Order::STATUS_PENDING, ($payment->amount + $payment->fee), $subscription_plan->product_type, null, auth('api')->user()->id, $subscription_plan);
         return (new PaymentResource($payment))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
