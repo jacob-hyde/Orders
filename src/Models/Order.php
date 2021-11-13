@@ -177,6 +177,7 @@ class Order extends Model
             'status' => $status,
             'amount' => $amount,
             'notes' => $notes,
+            'processor' => $payment->processor_method_type,
         ]);
     }
 }
