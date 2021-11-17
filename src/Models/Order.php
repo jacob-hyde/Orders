@@ -57,6 +57,7 @@ class Order extends Model
         'buyer_user_id',
         'seller_user_id',
         'status',
+        'processor',
         'amount',
         'invoice_url',
         'notes',
