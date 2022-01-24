@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\Models;
+namespace JacobHyde\Orders\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,8 +20,8 @@ class Payment extends Model
     public const INTENT_STEP_DECLINED = 'declined';
 
     public const PROCESSOR_TYPES = [
-        \KnotAShell\Orders\Models\PaymentIntent::class => 'stripe',
-        \KnotAShell\Orders\Models\PaypalOrder::class => 'paypal',
+        \JacobHyde\Orders\Models\PaymentIntent::class => 'stripe',
+        \JacobHyde\Orders\Models\PaypalOrder::class => 'paypal',
     ];
 
     protected $table = 'payments';

@@ -1,10 +1,10 @@
 <?php
 
-use KnotAShell\Orders\App\Http\Controllers\CouponCodeController;
-use KnotAShell\Orders\App\Http\Controllers\PaymentController;
-use KnotAShell\Orders\App\Http\Controllers\PixelController;
-use KnotAShell\Orders\App\Http\Controllers\SubscriptionController;
-use KnotAShell\Orders\App\Http\Controllers\SubscriptionPlanController;
+use JacobHyde\Orders\App\Http\Controllers\CouponCodeController;
+use JacobHyde\Orders\App\Http\Controllers\PaymentController;
+use JacobHyde\Orders\App\Http\Controllers\PixelController;
+use JacobHyde\Orders\App\Http\Controllers\SubscriptionController;
+use JacobHyde\Orders\App\Http\Controllers\SubscriptionPlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'payment'], function() {

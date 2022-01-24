@@ -1,8 +1,8 @@
 <?php
 
-namespace KnotAShell\Orders\App\Services;
+namespace JacobHyde\Orders\App\Services;
 
-use KnotAShell\Orders\Payment;
+use JacobHyde\Orders\Payment;
 use Exception;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;

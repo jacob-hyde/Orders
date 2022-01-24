@@ -1,8 +1,8 @@
 <?php
 
-namespace KnotAShell\Orders\App\Services;
+namespace JacobHyde\Orders\App\Services;
 
-use KnotAShell\Orders\Models\CouponCode;
+use JacobHyde\Orders\Models\CouponCode;
 
 class CouponCodeService
 {

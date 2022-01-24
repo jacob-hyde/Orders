@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\Models;
+namespace JacobHyde\Orders\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Faker\Provider\Uuid;

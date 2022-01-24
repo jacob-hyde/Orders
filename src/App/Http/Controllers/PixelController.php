@@ -1,8 +1,8 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Controllers;
+namespace JacobHyde\Orders\App\Http\Controllers;
 
-use KnotAShell\Orders\App\Services\CAPIService;
+use JacobHyde\Orders\App\Services\CAPIService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;

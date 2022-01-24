@@ -20,7 +20,7 @@ class CreateCouponCodesTable extends Migration
             $table->unsignedInteger('product_type_id');
             $table->foreign('product_type_id')->references('id')->on('product_types');
             $table->integer('amount')->default(0);
-            $table->set('type', ['percentage', 'fixed']);
+            $table->enum('type', ['percentage', 'fixed']);
             $table->boolean('applies_to_vendor')->default(false);
             $table->timestamps();
             $table->softDeletes();

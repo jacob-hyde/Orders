@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Resources;
+namespace JacobHyde\Orders\App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

@@ -1,62 +1,122 @@
 <?php
 
-namespace KnotAShell\Orders;
+namespace JacobHyde\Orders;
 
-use KnotAShell\Orders\App\Services\PaypalPaymentService;
-use KnotAShell\Orders\App\Services\StripePaymentService;
-use KnotAShell\Orders\Models\Order;
-use KnotAShell\Orders\Models\Payment as PaymentModel;
-use KnotAShell\Orders\Models\SubscriptionPlan;
+use JacobHyde\Orders\App\Services\PaypalPaymentService;
+use JacobHyde\Orders\App\Services\StripePaymentService;
+use JacobHyde\Orders\Models\Order;
+use JacobHyde\Orders\Models\Payment as PaymentModel;
+use JacobHyde\Orders\Models\SubscriptionPlan;
 use Exception;
 use Illuminate\Support\Arr;
-
+use JacobHyde\Orders\Actions\Payment\CreatePayment;
+use JacobHyde\Orders\Actions\Payment\CreatePaymentIntent;
+use JacobHyde\Orders\Actions\Payment\CreateRecurringPaymentIntent;
 
 class Payment
 {
-    public $amount = 0;
-    public $fee = 0;
-    public $meta =  [];
-    public $processor = 'stripe';
+    /**
+     * Amount of payment in cents.
+     *
+     * @var integer
+     */
+    public int $amount = 0;
+
+    /**
+     * Fee of payment in cents.
+     *
+     * @var integer
+     */
+    public int $fee = 0;
+
+    /**
+     * Payment Meta data.
+     *
+     * @var array
+     */
+    public array $meta =  [];
+
+    /**
+     * Payment Processor.
+     *
+     * @var string
+     */
+    public string $processor = 'stripe';
+
+    /**
+     * User for payment.
+     *
+     * @var \App\Models\User
+     */
     public $user;
-    public $seller_user;
-    public $recurring = false;
-    public $subscription_plan;
-    public $remember_card = false;
 
-    private $_return_url;
-    private $_cancel_url;
+    /**
+     * Seller for payment.
+     *
+     * @var \App\Models\User
+     */
+    public $sellerUser;
 
+    /**
+     * Subscription payment (AKA Recurring Payment).
+     *
+     * @var boolean
+     */
+    public bool $recurring = false;
+
+    /**
+     * Subscription plan.
+     *
+     * @var \JacobHyde\Orders\Models\SubscriptionPlan
+     */
+    public $subscriptionPlan;
+
+    /**
+     * Remember the users card details.
+     *
+     * @var boolean
+     */
+    public bool $rememberCard = false;
+
+    /**
+     * Paypal Return URL.
+     *
+     * @var string
+     */
+    private string $returnUrl;
+
+    /**
+     * Paypal Cancel URL.
+     *
+     * @var string
+     */
+    private string $cancelUrl;
+
+    /**
+     * Create a payment instance.
+     *
+     * @return PaymentModel
+     */
     public function create(): PaymentModel
     {
         if ($this->recurring) {
-            $stripe = new StripePaymentService($this->user);
-            $intent = $stripe->createSetupIntent($this->subscription_plan);
-        } else if ($this->processor === 'stripe') {
-            $stripe = new StripePaymentService($this->user, $this->seller_user);
-            $intent = $stripe->create($this->amount, $this->fee, $this->remember_card);
-        } else if ($this->processor === 'paypal') {
-            $paypal = new PaypalPaymentService($this->user, $this->seller_user);
-            $intent = $paypal->create($this->amount, $this->fee, $this->_return_url, $this->_cancel_url);
+            $intent = CreateRecurringPaymentIntent::run($this->user, $this->subscriptionPlan);
+        } else {
+            $intent = CreatePaymentIntent::run($this->processor, $this->amount, $this->fee, $this->rememberCard, $this->returnUrl, $this->cancelUrl, $this->user, $this->sellerUser);
         }
-        $payment = PaymentModel::create([
-            'processor_id' => $intent->id,
-            'processor_type' => $intent->getMorphClass(),
-            'buyer_user_id' => $this->user->id,
-            'seller_user_id' => $this->seller_user ? $this->seller_user->id : null,
-            'amount' => $this->amount ? self::convertDollarsToCents($this->amount) : $intent->amount,
-            'fee' => $this->fee ? self::convertDollarsToCents($this->fee) : null,
-            'status' => PaymentModel::STATUS_PENDING
-        ]);
-        $payment->key = md5($payment->id . $intent->id);
-        $payment->save();
-        return $payment;
+        return CreatePayment::run($intent, $this->user, $this->sellerUser);
     }
 
+    /**
+     * Create a payment instance from fee.
+     *
+     * @return PaymentModel
+     */
     public function createFee(): PaymentModel
     {
         $payment = PaymentModel::create([
             'buyer_user_id' => $this->user->id,
-            'seller_user_id' => $this->seller_user ? $this->seller_user->id : null,
+            'sellerUser_id' => $this->sellerUser ? $this->sellerUser->id : null,
             'amount' => self::convertDollarsToCents($this->amount),
             'fee' => self::convertDollarsToCents($this->fee),
             'status' => PaymentModel::STATUS_PENDING
@@ -66,20 +126,28 @@ class Payment
         return $payment;
     }
 
+    /**
+     * Update a payment.
+     * After the payment intent has been completed on the FE.
+     *
+     * @param PaymentModel $payment
+     * @param array $data
+     * @return boolean
+     */
     public function update(PaymentModel $payment, array $data): bool
     {
         switch ($payment->processor_method_type) {
             case 'stripe':
                 $stripe = new StripePaymentService();
-                $payment_status = $stripe->updatePaymentStatus($payment->processor);
+                $paymentStatus = $stripe->updatePaymentStatus($payment->processor);
                 break;
             case 'paypal':
                 $paypal = new PaypalPaymentService();
-                $payment_status = $paypal->updatePaymentStatus($payment->processor);
+                $paymentStatus = $paypal->updatePaymentStatus($payment->processor);
                 $paypal->updateData($payment->processor, Arr::except($data, ['coupon_id', '_fbc', '_fbp']));
                 break;
         }
-        $payment->status = $payment_status;
+        $payment->status = $paymentStatus;
         $payment->save();
         if ($payment->status === PaymentModel::STATUS_PAID && config('orders.status_change_callback')) {
             $payment->order->status = Order::STATUS_COMPLETED;
@@ -91,19 +159,26 @@ class Payment
         return false;
     }
 
+    /**
+     * Create a subscription payment.
+     *
+     * @param PaymentModel $payment
+     * @param array $data
+     * @return boolean
+     */
     public function createSubscription(PaymentModel $payment, array $data): bool
     {
         if (!config('orders.create_or_swap_subscription_callback')) {
             return false;
         }
         $user = $payment->buyer;
-        $subscription_plan = $payment->order->subscription_plan;
+        $subscriptionPlan = $payment->order->subscriptionPlan;
         $paymentable = $payment->paymentables ? $payment->paymentables->pluck('paymentable')->first() : null;
         $subscription = call_user_func(config('orders.create_or_swap_subscription_callback') . '::handle',
-            $user, $subscription_plan, $paymentable, isset($data['payment_method']) ? $data['payment_method'] : null);
+            $user, $subscriptionPlan, $paymentable, isset($data['payment_method']) ? $data['payment_method'] : null);
         $stripe = new StripePaymentService();
-        $payment_status = $stripe->updatePaymentStatus($payment->processor);
-        $payment->status = $payment_status;
+        $paymentStatus = $stripe->updatePaymentStatus($payment->processor);
+        $payment->status = $paymentStatus;
         $payment->save();
         $payment->order->subscription_id = $subscription->id;
         $payment->order->save();
@@ -118,6 +193,13 @@ class Payment
         return $subscription->stripe_status === 'active' || $subscription->stripe_status === 'trialing';
     }
 
+    /**
+     * Refund a payment.
+     *
+     * @param PaymentModel $payment
+     * @param integer|null $amount
+     * @return void
+     */
     public function refund(PaymentModel $payment, int $amount = null): void
     {
         switch ($payment->processor_method_type) {
@@ -138,36 +220,77 @@ class Payment
         }
     }
 
-    public function cancelSubscription($user, $type, $plan)
+    /**
+     * Cancel a subscription.
+     *
+     * @param App\Models\User $user
+     * @param string $type
+     * @param string $plan
+     * @return boolean
+     */
+    public function cancelSubscription($user, string $type, string $plan): bool
     {
         return $user->subscription($type, $plan)->cancel();
     }
 
-    public function payout($user, $amount, $email_subject, $note): void
+    /**
+     * Payout a vendor.
+     *
+     * @param App\Models\User $user
+     * @param int $amount
+     * @param string $emailSubject
+     * @param string $note
+     * @return void
+     */
+    public function payout($user, int $amount, string $emailSubject, string $note): void
     {
         $paypal_service = new PaypalPaymentService($user);
-        $paypal_service->payoutWithAmount($amount, $email_subject, $note);
+        $paypal_service->payoutWithAmount($amount, $emailSubject, $note);
     }
 
-    public function setAmount(float $amount)
+    /**
+     * Set amount in dollars.
+     *
+     * @param float $amount
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setAmount(float $amount): self
     {
         $this->amount = $amount;
         return $this;
     }
 
-    public function setFee(float $fee)
+    /**
+     * Set the fee in dollars.
+     *
+     * @param float $fee
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setFee(float $fee): self
     {
         $this->fee = $fee;
         return $this;
     }
 
-    public function setMeta(array $meta)
+    /**
+     * Set meta data.
+     *
+     * @param array $meta
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setMeta(array $meta): self
     {
         $this->meta = $meta;
         return $this;
     }
 
-    public function setProcessor(string $processor)
+    /**
+     * Set payment processor
+     *
+     * @param string $processor
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setProcessor(string $processor): self
     {
         if (!in_array($processor, ['stripe', 'paypal'])) {
             throw new Exception("Unkown payment processor: " . $processor);
@@ -176,48 +299,96 @@ class Payment
         return $this;
     }
 
-    public function setUser($user)
+    /**
+     * Set buying user.
+     *
+     * @param App\Models\User $user
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setUser($user): self
     {
         $this->user = $user;
         return $this;
     }
 
-    public function setSeller($seller_user)
+    /**
+     * Set the seller.
+     *
+     * @param App\Models\User $sellerUser
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setSeller($sellerUser): self
     {
-        $this->seller_user = $seller_user;
+        $this->sellerUser = $sellerUser;
         return $this;
     }
 
-    public function setReturnURL(string $return_url)
+    /**
+     * Set Paypal return URL.
+     *
+     * @param string $return_url
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setReturnURL(string $return_url): self
     {
-        $this->_return_url = $return_url;
+        $this->returnUrl = $return_url;
         return $this;
     }
 
-    public function setCancelURL(string $cancel_url)
+    /**
+     * Set Paypal Cancel URL.
+     *
+     * @param string $cancel_url
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setCancelURL(string $cancel_url): self
     {
-        $this->_cancel_url = $cancel_url;
+        $this->cancelUrl = $cancel_url;
         return $this;
     }
 
-    public function setRecurring(bool $recurring)
+    /**
+     * Set recurring.
+     *
+     * @param boolean $recurring
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setRecurring(bool $recurring): self
     {
         $this->recurring = $recurring;
         return $this;
     }
 
-    public function rememberCard(bool $remember_card)
+    /**
+     * Set remember card.
+     *
+     * @param boolean $rememberCard
+     * @return JacobHyde\Orders\Payment
+     */
+    public function rememberCard(bool $rememberCard): self
     {
-        $this->remember_card = $remember_card;
+        $this->rememberCard = $rememberCard;
         return $this;
     }
 
-    public function setSubscriptionPlan(SubscriptionPlan $subscription_plan)
+    /**
+     * Set subscription plan.
+     *
+     * @param SubscriptionPlan $subscriptionPlan
+     * @return JacobHyde\Orders\Payment
+     */
+    public function setSubscriptionPlan(SubscriptionPlan $subscriptionPlan): self
     {
-        $this->subscription_plan = $subscription_plan;
+        $this->subscriptionPlan = $subscriptionPlan;
         return $this;
     }
 
+    /**
+     * Convert Cents to Dollars.
+     *
+     * @param integer $amount
+     * @return string
+     */
     public static function convertCentsToDollars(int $amount): string
     {
         return number_format(($amount / 100), 2, '.', '');

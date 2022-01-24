@@ -1,12 +1,12 @@
 <?php
 
-namespace KnotAShell\Orders\App\Jobs\Stripe;
+namespace JacobHyde\Orders\App\Jobs\Stripe;
 
-use KnotAShell\Orders\App\Mail\Subscription\SubscriptionRenewalEmail;
-use KnotAShell\Orders\Models\Order;
-use KnotAShell\Orders\Models\Payment;
-use KnotAShell\Orders\Models\StripeInvoice;
-use KnotAShell\Orders\Models\Subscription;
+use JacobHyde\Orders\App\Mail\Subscription\SubscriptionRenewalEmail;
+use JacobHyde\Orders\Models\Order;
+use JacobHyde\Orders\Models\Payment;
+use JacobHyde\Orders\Models\StripeInvoice;
+use JacobHyde\Orders\Models\Subscription;
 use Faker\Provider\Uuid;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

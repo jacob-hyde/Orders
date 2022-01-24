@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Controllers;
+namespace JacobHyde\Orders\App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;

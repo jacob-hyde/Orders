@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Requests;
+namespace JacobHyde\Orders\App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

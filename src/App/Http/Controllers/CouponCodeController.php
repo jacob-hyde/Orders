@@ -1,12 +1,12 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Controllers;
+namespace JacobHyde\Orders\App\Http\Controllers;
 
-use KnotAShell\Orders\App\Http\Requests\CouponCodeUpdateRequest;
-use KnotAShell\Orders\App\Http\Resources\CouponCodeResource;
-use KnotAShell\Orders\Facades\Payment;
-use KnotAShell\Orders\Models\CouponCode;
-use KnotAShell\Orders\Models\ProductType;
+use JacobHyde\Orders\App\Http\Requests\CouponCodeUpdateRequest;
+use JacobHyde\Orders\App\Http\Resources\CouponCodeResource;
+use JacobHyde\Orders\Facades\Payment;
+use JacobHyde\Orders\Models\CouponCode;
+use JacobHyde\Orders\Models\ProductType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

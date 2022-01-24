@@ -1,15 +1,15 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Controllers;
+namespace JacobHyde\Orders\App\Http\Controllers;
 
-use KnotAShell\Orders\App\Http\Controllers\Controller;
-use KnotAShell\Orders\App\Http\Requests\SubscriptionPlanRequest;
-use KnotAShell\Orders\App\Http\Resources\PaymentResource;
-use KnotAShell\Orders\App\Http\Resources\SubscriptionPlanResource;
-use KnotAShell\Orders\Facades\Payment;
-use KnotAShell\Orders\Models\Customer;
-use KnotAShell\Orders\Models\Order;
-use KnotAShell\Orders\Models\SubscriptionPlan;
+use JacobHyde\Orders\App\Http\Controllers\Controller;
+use JacobHyde\Orders\App\Http\Requests\SubscriptionPlanRequest;
+use JacobHyde\Orders\App\Http\Resources\PaymentResource;
+use JacobHyde\Orders\App\Http\Resources\SubscriptionPlanResource;
+use JacobHyde\Orders\Facades\Payment;
+use JacobHyde\Orders\Models\Customer;
+use JacobHyde\Orders\Models\Order;
+use JacobHyde\Orders\Models\SubscriptionPlan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

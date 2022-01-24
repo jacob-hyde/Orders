@@ -1,11 +1,12 @@
 <?php
 
-namespace KnotAShell\Orders\Models;
+namespace JacobHyde\Orders\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use PaymentIntentContract;
 
-class PaypalOrder extends Model
+class PaypalOrder extends Model implements PaymentIntentContract
 {
 
     use SoftDeletes;
@@ -32,7 +33,7 @@ class PaypalOrder extends Model
         'payment_link',
     ];
 
-    public function getPaymentIdentifierAttribute()
+    public function getPaymentIdentifierAttribute(): string
     {
         return $this->order_id;
     }

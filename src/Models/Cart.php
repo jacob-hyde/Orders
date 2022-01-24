@@ -1,15 +1,17 @@
 <?php
 
-namespace KnotAShell\Orders\Models;
+namespace JacobHyde\Orders\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Faker\Provider\Uuid;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use JacobHyde\Orders\Database\Factories\CartFactory;
 
 class Cart extends Model
 {
     use SoftDeletes;
+    use HasFactory;
 
     protected $table = 'carts';
 
@@ -34,6 +36,11 @@ class Cart extends Model
     protected $casts = [
         'meta' => 'json',
     ];
+
+    protected static function newFactory()
+    {
+        return CartFactory::new();
+    }
 
     public function getRouteKeyName()
     {

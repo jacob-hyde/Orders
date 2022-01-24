@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\Facades;
+namespace JacobHyde\Orders\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

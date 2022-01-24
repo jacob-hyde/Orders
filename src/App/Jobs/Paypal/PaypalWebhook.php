@@ -1,9 +1,9 @@
 <?php
 
-namespace KnotAShell\Orders\App\Jobs\Paypal;
+namespace JacobHyde\Orders\App\Jobs\Paypal;
 
-use KnotAShell\Orders\Models\PaypalPayout;
-use KnotAShell\Orders\Models\PaypalWebhookEvent;
+use JacobHyde\Orders\Models\PaypalPayout;
+use JacobHyde\Orders\Models\PaypalWebhookEvent;
 use Carbon\Carbon;
 use \Spatie\WebhookClient\ProcessWebhookJob as SpatieProcessWebhookJob;
 

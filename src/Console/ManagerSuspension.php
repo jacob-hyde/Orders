@@ -1,5 +1,5 @@
 <?php
-namespace KnotAShell\Orders\Console;
+namespace JacobHyde\Orders\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;

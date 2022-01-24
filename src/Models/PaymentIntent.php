@@ -1,11 +1,12 @@
 <?php
 
-namespace KnotAShell\Orders\Models;
+namespace JacobHyde\Orders\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use PaymentIntentContract;
 
-class PaymentIntent extends Model
+class PaymentIntent extends Model implements PaymentIntentContract
 {
 
     use SoftDeletes;
@@ -39,7 +40,7 @@ class PaymentIntent extends Model
         'application_fee_amount'
     ];
 
-    public function getPaymentIdentifierAttribute()
+    public function getPaymentIdentifierAttribute(): string
     {
         return $this->client_secret;
     }

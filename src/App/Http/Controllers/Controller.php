@@ -1,6 +1,6 @@
 <?php
 
-namespace KnotAShell\Orders\App\Http\Controllers;
+namespace JacobHyde\Orders\App\Http\Controllers;
 
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;

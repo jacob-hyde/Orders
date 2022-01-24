@@ -1,10 +1,10 @@
 <?php
 
-namespace KnotAShell\Orders;
+namespace JacobHyde\Orders;
 
-use KnotAShell\Orders\App\Http\Middleware\AdminOnly;
-use KnotAShell\Orders\App\Http\Middleware\PaymentKey;
-use KnotAShell\Orders\Console\ManagerSuspension;
+use JacobHyde\Orders\App\Http\Middleware\AdminOnly;
+use JacobHyde\Orders\App\Http\Middleware\PaymentKey;
+use JacobHyde\Orders\Console\ManagerSuspension;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
@@ -12,7 +12,7 @@ use Illuminate\Console\Scheduling\Schedule;
 
 class OrdersServiceProvider extends ServiceProvider
 {
-    private $_packageTag = 'orders';
+    private $packageTag = 'orders';
 
     /**
     * Bootstrap any application services.
@@ -33,16 +33,16 @@ class OrdersServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/stripe-webhooks.php'  => config_path('stripe-webhooks.php'),
                 __DIR__ . '/../config/webhook-client.php'  => config_path('webhook-client.php'),
                 __DIR__.'/Database/Migrations'      => database_path('migrations')
-            ], $this->_packageTag);
+            ], $this->packageTag);
             $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
             $this->publishes([
-                __DIR__.'/resources/views' => resource_path('views/vendor/' . $this->_packageTag),
+                __DIR__.'/resources/views' => resource_path('views/vendor/' . $this->packageTag),
               ], 'views');
             $this->commands([
                 ManagerSuspension::class,
                 ]);
             }
-        $this->loadViewsFrom(__DIR__.'/resources/views', $this->_packageTag);
+        $this->loadViewsFrom(__DIR__.'/resources/views', $this->packageTag);
         $this->app->booted(function() {
             $schedule = $this->app->make(Schedule::class);
             $schedule->command('manager:suspend')->weekdays()->at('13:00');
@@ -58,11 +58,11 @@ class OrdersServiceProvider extends ServiceProvider
     {
         $this->app->register(\Spatie\WebhookClient\WebhookClientServiceProvider::class);
         $this->app->register(\Spatie\StripeWebhooks\StripeWebhooksServiceProvider::class);
-        $this->mergeConfigFrom(__DIR__ . '/../config/orders.php', $this->_packageTag);
-        $this->mergeConfigFrom(__DIR__ . '/../config/cashier.php', $this->_packageTag);
-        $this->mergeConfigFrom(__DIR__ . '/../config/manager-suspension.php', $this->_packageTag);
-        $this->mergeConfigFrom(__DIR__ . '/../config/stripe-webhooks.php', $this->_packageTag);
-        $this->mergeConfigFrom(__DIR__ . '/../config/webhook-client.php', $this->_packageTag);
+        $this->mergeConfigFrom(__DIR__ . '/../config/orders.php', $this->packageTag);
+        $this->mergeConfigFrom(__DIR__ . '/../config/cashier.php', $this->packageTag);
+        $this->mergeConfigFrom(__DIR__ . '/../config/manager-suspension.php', $this->packageTag);
+        $this->mergeConfigFrom(__DIR__ . '/../config/stripe-webhooks.php', $this->packageTag);
+        $this->mergeConfigFrom(__DIR__ . '/../config/webhook-client.php', $this->packageTag);
         $this->app->bind('payment', function ($app) {
             return new Payment();
         });
